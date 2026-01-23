@@ -1,0 +1,65 @@
+// =============================================================================
+// PRISMA SCHEMA
+// =============================================================================
+// This file defines the database schema for the GOV.UK Next.js Starter project.
+// It uses PostgreSQL as the database provider and Prisma as the ORM.
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// Generator Configuration
+// -----------------------------------------------------------------------------
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+// -----------------------------------------------------------------------------
+// Datasource Configuration
+// -----------------------------------------------------------------------------
+// Uses PostgreSQL. Connection is configured via prisma.config.ts for Prisma 7
+datasource db {
+  provider = "postgresql"
+}
+
+// =============================================================================
+// MODELS
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// FormSubmission Model
+// -----------------------------------------------------------------------------
+// Stores form submissions from the application.
+// Uses a JSON field to store flexible form data, allowing different form types
+// to be stored in the same table without schema changes.
+//
+// Example usage:
+// - Contact form submissions
+// - Feedback form submissions
+// - Application form submissions
+model FormSubmission {
+  /// Unique identifier for the submission (UUID)
+  id        String   @id @default(uuid())
+
+  /// Type of form submitted (e.g., "contact", "feedback", "application")
+  formType  String
+
+  /// JSON data containing the form fields and values
+  data      Json
+
+  /// Email address of the submitter (optional, for reference)
+  email     String?
+
+  /// Reference number for the submission (for user reference)
+  reference String   @unique @default(uuid())
+
+  /// Timestamp when the submission was created
+  createdAt DateTime @default(now())
+
+  /// Timestamp when the submission was last updated
+  updatedAt DateTime @updatedAt
+
+  // Indexes for common queries
+  @@index([formType])
+  @@index([email])
+  @@index([createdAt])
+}

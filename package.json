@@ -1,0 +1,43 @@
+{
+  "name": "govuk-next-starter",
+  "version": "1.0.0",
+  "description": "Next.js + TypeScript starter project for GOV.UK Design System compliant websites",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:seed": "npx tsx prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "postinstall": "prisma generate && npm run copy-assets",
+    "copy-assets": "node scripts/copy-govuk-assets.js"
+  },
+  "dependencies": {
+    "next": "^16.1.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "govuk-frontend": "^5.14.0",
+    "@prisma/client": "^7.3.0",
+    "@prisma/adapter-pg": "^7.3.0",
+    "dotenv": "^16.4.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.9.3",
+    "sass": "^1.97.3",
+    "prisma": "^7.3.0",
+    "tsx": "^4.19.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.1.4"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

@@ -1,0 +1,45 @@
+// =============================================================================
+// GOV.UK DESIGN SYSTEM - GLOBAL STYLES
+// =============================================================================
+// This file imports all GOV.UK Frontend styles and configures the design system.
+// It is imported in the root layout to ensure styles are available globally.
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// Configuration Variables
+// -----------------------------------------------------------------------------
+// These variables MUST be set before importing govuk-frontend styles.
+
+// Enable global styles (typography, links, etc.)
+$govuk-global-styles: true;
+
+// Use the new typography scale (recommended for new projects)
+$govuk-new-typography-scale: true;
+
+// Path to assets (fonts, images) - relative to the public directory
+$govuk-assets-path: "/assets/";
+
+// Enable the GOV.UK rebrand (2025 brand refresh)
+// This enables updated logos, fonts, and color schemes
+$govuk-brand-colour: #1d70b8;
+
+// -----------------------------------------------------------------------------
+// GOV.UK Frontend Import
+// -----------------------------------------------------------------------------
+// Import all GOV.UK Frontend styles. This includes:
+// - Base styles (typography, colours, spacing)
+// - Component styles (buttons, forms, headers, etc.)
+// - Utility classes
+@import "govuk-frontend/dist/govuk/index";
+
+// -----------------------------------------------------------------------------
+// Custom Overrides (Optional)
+// -----------------------------------------------------------------------------
+// Add any project-specific style overrides below this line.
+// Try to use GDS design tokens where possible to maintain consistency.
+
+// Example: Custom focus states for enhanced accessibility
+// .custom-focus:focus {
+//   outline: 3px solid $govuk-focus-colour;
+//   outline-offset: 0;
+// }
