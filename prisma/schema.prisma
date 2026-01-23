@@ -26,28 +26,25 @@ datasource db {
 // =============================================================================
 
 // -----------------------------------------------------------------------------
-// FormSubmission Model
+// ContactSubmission Model
 // -----------------------------------------------------------------------------
-// Stores form submissions from the application.
-// Uses a JSON field to store flexible form data, allowing different form types
-// to be stored in the same table without schema changes.
-//
-// Example usage:
-// - Contact form submissions
-// - Feedback form submissions
-// - Application form submissions
-model FormSubmission {
+// Stores contact form submissions with explicit columns for each field.
+// This allows efficient querying and filtering by individual fields.
+model ContactSubmission {
   /// Unique identifier for the submission (UUID)
   id        String   @id @default(uuid())
 
-  /// Type of form submitted (e.g., "contact", "feedback", "application")
-  formType  String
+  /// Full name of the person submitting
+  fullName  String
 
-  /// JSON data containing the form fields and values
-  data      Json
+  /// Email address for replies
+  email     String
 
-  /// Email address of the submitter (optional, for reference)
-  email     String?
+  /// Subject/category of the enquiry
+  subject   String
+
+  /// The message content
+  message   String
 
   /// Reference number for the submission (for user reference)
   reference String   @unique @default(uuid())
@@ -59,7 +56,41 @@ model FormSubmission {
   updatedAt DateTime @updatedAt
 
   // Indexes for common queries
-  @@index([formType])
   @@index([email])
+  @@index([subject])
+  @@index([createdAt])
+}
+
+// -----------------------------------------------------------------------------
+// FeedbackSubmission Model
+// -----------------------------------------------------------------------------
+// Stores feedback form submissions with explicit columns for each field.
+model FeedbackSubmission {
+  /// Unique identifier for the submission (UUID)
+  id              String   @id @default(uuid())
+
+  /// Satisfaction rating
+  satisfaction    String
+
+  /// Suggested improvements (optional)
+  improvements    String?
+
+  /// Whether user would recommend the service
+  wouldRecommend  String
+
+  /// Email address (optional, for follow-up)
+  email           String?
+
+  /// Reference number for the submission
+  reference       String   @unique @default(uuid())
+
+  /// Timestamp when the submission was created
+  createdAt       DateTime @default(now())
+
+  /// Timestamp when the submission was last updated
+  updatedAt       DateTime @updatedAt
+
+  // Indexes for common queries
+  @@index([satisfaction])
   @@index([createdAt])
 }

@@ -35,7 +35,7 @@ export default async function ConfirmationPage({
   }
 
   // Verify the submission exists
-  const submission = await prisma.formSubmission.findUnique({
+  const submission = await prisma.contactSubmission.findUnique({
     where: { reference },
   });
 
@@ -52,7 +52,8 @@ export default async function ConfirmationPage({
       <h2 className="govuk-heading-m">What happens next</h2>
 
       <p className="govuk-body">
-        We&apos;ve sent a confirmation email to the address you provided.
+        We&apos;ve sent a confirmation email to{" "}
+        <strong>{submission.email}</strong>.
       </p>
 
       <p className="govuk-body">
@@ -61,8 +62,7 @@ export default async function ConfirmationPage({
 
       {/* Reference reminder */}
       <div className="govuk-inset-text">
-        Keep a note of your reference number:{" "}
-        <strong>{reference}</strong>
+        Keep a note of your reference number: <strong>{reference}</strong>
       </div>
 
       {/* Actions */}

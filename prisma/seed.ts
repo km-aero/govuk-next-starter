@@ -7,58 +7,70 @@
  */
 
 import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-const prisma = new PrismaClient();
+// Create adapter and client for seeding
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   console.log("🌱 Seeding database...");
 
   // Clear existing data (for development only)
-  await prisma.formSubmission.deleteMany();
+  await prisma.contactSubmission.deleteMany();
+  await prisma.feedbackSubmission.deleteMany();
 
-  // Create example form submissions
-  const submissions = await Promise.all([
-    prisma.formSubmission.create({
+  // Create example contact submissions
+  const contactSubmissions = await Promise.all([
+    prisma.contactSubmission.create({
       data: {
-        formType: "contact",
+        fullName: "John Smith",
         email: "john.smith@example.gov.uk",
-        data: {
-          fullName: "John Smith",
-          email: "john.smith@example.gov.uk",
-          subject: "General enquiry",
-          message:
-            "I would like to enquire about the service availability in my area.",
-        },
+        subject: "general",
+        message:
+          "I would like to enquire about the service availability in my area.",
       },
     }),
-    prisma.formSubmission.create({
+    prisma.contactSubmission.create({
       data: {
-        formType: "feedback",
+        fullName: "Jane Doe",
         email: "jane.doe@example.gov.uk",
-        data: {
-          fullName: "Jane Doe",
-          email: "jane.doe@example.gov.uk",
-          satisfaction: "satisfied",
-          improvements: "The service was easy to use. No improvements needed.",
-          wouldRecommend: true,
-        },
+        subject: "technical",
+        message: "I need help with accessing my account.",
       },
     }),
-    prisma.formSubmission.create({
+    prisma.contactSubmission.create({
       data: {
-        formType: "contact",
+        fullName: "Admin User",
         email: "admin@example.org",
-        data: {
-          fullName: "Admin User",
-          email: "admin@example.org",
-          subject: "Technical support",
-          message: "I need help with accessing my account.",
-        },
+        subject: "feedback",
+        message: "Great service, very easy to use!",
       },
     }),
   ]);
 
-  console.log(`✅ Created ${submissions.length} form submissions`);
+  console.log(`✅ Created ${contactSubmissions.length} contact submissions`);
+
+  // Create example feedback submissions
+  const feedbackSubmissions = await Promise.all([
+    prisma.feedbackSubmission.create({
+      data: {
+        satisfaction: "very-satisfied",
+        improvements: "None needed, excellent service!",
+        wouldRecommend: "yes",
+        email: "happy.user@example.gov.uk",
+      },
+    }),
+    prisma.feedbackSubmission.create({
+      data: {
+        satisfaction: "satisfied",
+        improvements: "Could be faster to load on mobile.",
+        wouldRecommend: "yes",
+      },
+    }),
+  ]);
+
+  console.log(`✅ Created ${feedbackSubmissions.length} feedback submissions`);
   console.log("🎉 Seeding complete!");
 }
 

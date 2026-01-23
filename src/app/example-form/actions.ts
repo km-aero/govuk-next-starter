@@ -57,15 +57,16 @@ export async function submitContactForm(
     return { success: false, errors };
   }
 
-  // Data is valid, save to database
+  // Data is valid, save to database with explicit columns
   const validData: ContactFormData = result.data;
 
   try {
-    const submission = await prisma.formSubmission.create({
+    const submission = await prisma.contactSubmission.create({
       data: {
-        formType: "contact",
+        fullName: validData.fullName,
         email: validData.email,
-        data: validData,
+        subject: validData.subject,
+        message: validData.message,
       },
     });
 
