@@ -37,6 +37,7 @@ npm install
 ```
 
 This will:
+
 - Install all Node.js dependencies
 - Generate the Prisma client
 - Copy GOV.UK Frontend assets to the public directory
@@ -77,7 +78,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Project Structure
 
-```
+```text
 govuk-next-starter/
 ├── prisma/
 │   ├── schema.prisma         # Database schema
@@ -138,6 +139,61 @@ govuk-next-starter/
 | `npm run db:seed` | Seed database with example data |
 | `npm run db:studio` | Open Prisma Studio |
 | `npm run copy-assets` | Copy GDS assets to public directory |
+| `npm run test` | Run component tests (Vitest) |
+| `npm run test:ui` | Run tests with Vitest UI |
+| `npm run test:coverage` | Run tests with coverage report |
+| `npm run test:e2e` | Run end-to-end tests (Playwright) |
+| `npm run test:e2e:ui` | Run E2E tests with Playwright UI |
+| `npm run test:a11y` | Run accessibility tests |
+
+## Testing
+
+The project includes a comprehensive testing setup:
+
+### Component Tests (Vitest + Testing Library)
+
+```bash
+# Run tests in watch mode
+npm run test
+
+# Run with UI
+npm run test:ui
+
+# Run with coverage
+npm run test:coverage
+```
+
+Tests are located in `tests/` directory:
+
+- `tests/components/` - GDS component tests
+- `tests/lib/` - Utility and validation tests
+
+### End-to-End Tests (Playwright)
+
+```bash
+# Run all E2E tests
+npm run test:e2e
+
+# Run with headed browsers
+npm run test:e2e:headed
+
+# Run with Playwright UI
+npm run test:e2e:ui
+```
+
+Tests are located in `e2e/` directory:
+
+- `e2e/homepage.spec.ts` - Homepage tests
+- `e2e/contact-form.spec.ts` - Form submission flow
+- `e2e/accessibility.spec.ts` - Accessibility tests
+
+### Accessibility Tests
+
+Accessibility tests use axe-core to check for WCAG 2.2 AA compliance:
+
+```bash
+npm run test:a11y
+```
 
 ## Using GDS Components
 
