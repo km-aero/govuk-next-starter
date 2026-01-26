@@ -5,18 +5,18 @@
  * It ensures that GDS Transport fonts and images are available for the application.
  */
 
-const fs = require("fs");
-const path = require("path");
+import { existsSync, mkdirSync, readdirSync, copyFileSync } from "fs";
+import { join } from "path";
 
-const sourceDir = path.join(
+const sourceDir = join(
   process.cwd(),
   "node_modules",
   "govuk-frontend",
   "dist",
   "govuk",
-  "assets"
+  "assets",
 );
-const targetDir = path.join(process.cwd(), "public", "assets");
+const targetDir = join(process.cwd(), "public", "assets");
 
 /**
  * Recursively copies a directory from source to target.
@@ -25,34 +25,32 @@ const targetDir = path.join(process.cwd(), "public", "assets");
  */
 function copyDir(src, dest) {
   // Create destination directory if it doesn't exist
-  if (!fs.existsSync(dest)) {
-    fs.mkdirSync(dest, { recursive: true });
+  if (!existsSync(dest)) {
+    mkdirSync(dest, { recursive: true });
   }
 
-  const entries = fs.readdirSync(src, { withFileTypes: true });
+  const entries = readdirSync(src, { withFileTypes: true });
 
   for (const entry of entries) {
-    const srcPath = path.join(src, entry.name);
-    const destPath = path.join(dest, entry.name);
+    const srcPath = join(src, entry.name);
+    const destPath = join(dest, entry.name);
 
     if (entry.isDirectory()) {
       copyDir(srcPath, destPath);
     } else {
-      fs.copyFileSync(srcPath, destPath);
+      copyFileSync(srcPath, destPath);
     }
   }
 }
 
 // Main execution
 try {
-  if (fs.existsSync(sourceDir)) {
+  if (existsSync(sourceDir)) {
     console.log("📦 Copying GOV.UK Frontend assets...");
     copyDir(sourceDir, targetDir);
     console.log("✅ GOV.UK Frontend assets copied to public/assets/");
   } else {
-    console.log(
-      "⚠️  GOV.UK Frontend not found. Run npm install first."
-    );
+    console.log("⚠️  GOV.UK Frontend not found. Run npm install first.");
   }
 } catch (error) {
   console.error("❌ Error copying assets:", error.message);
