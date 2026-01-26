@@ -37,6 +37,7 @@ export default async function ConfirmationPage({
   // Verify the submission exists
   const submission = await prisma.contactSubmission.findUnique({
     where: { reference },
+    select: { email: true },
   });
 
   if (!submission) {
