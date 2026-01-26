@@ -38,16 +38,12 @@ export function Button({
   ...props
 }: ButtonProps) {
   // Build class list based on variant
-  const classes = [
-    "govuk-button",
-    variant === "secondary" && "govuk-button--secondary",
-    variant === "warning" && "govuk-button--warning",
-    isStartButton && "govuk-button--start",
-    disabled && "govuk-button--disabled",
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  let classes = "govuk-button";
+  if (variant === "secondary") classes += " govuk-button--secondary";
+  if (variant === "warning") classes += " govuk-button--warning";
+  if (isStartButton) classes += " govuk-button--start";
+  if (disabled) classes += " govuk-button--disabled";
+  if (className) classes += " " + className;
 
   return (
     <button
