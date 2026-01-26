@@ -14,6 +14,16 @@ const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
+  // ─────────────────────────────────────────────────────────────────────────
+  // Production Safety Check
+  // ─────────────────────────────────────────────────────────────────────────
+  // Prevent accidental seeding in production, which would delete all data.
+  if (process.env.NODE_ENV === "production") {
+    console.error("❌ Seed script should not run in production!");
+    console.error("   This script deletes existing data before seeding.");
+    process.exit(1);
+  }
+
   console.log("🌱 Seeding database...");
 
   // Clear existing data (for development only)
