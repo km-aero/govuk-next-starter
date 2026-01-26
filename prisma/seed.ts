@@ -44,35 +44,31 @@ async function main() {
   await prisma.feedbackSubmission.deleteMany();
 
   // Create example contact submissions
-  const contactSubmissions = await Promise.all([
-    prisma.contactSubmission.create({
-      data: {
+  const contactSubmissions = await prisma.contactSubmission.createMany({
+    data: [
+      {
         fullName: "John Smith",
         email: "john.smith@example.gov.uk",
         subject: "general",
         message:
           "I would like to enquire about the service availability in my area.",
       },
-    }),
-    prisma.contactSubmission.create({
-      data: {
+      {
         fullName: "Jane Doe",
         email: "jane.doe@example.gov.uk",
         subject: "technical",
         message: "I need help with accessing my account.",
       },
-    }),
-    prisma.contactSubmission.create({
-      data: {
+      {
         fullName: "Admin User",
         email: "admin@example.org",
         subject: "feedback",
         message: "Great service, very easy to use!",
       },
-    }),
-  ]);
+    ],
+  });
 
-  console.log(`✅ Created ${contactSubmissions.length} contact submissions`);
+  console.log(`✅ Created ${contactSubmissions.count} contact submissions`);
 
   // Create example feedback submissions
   const feedbackSubmissions = await Promise.all([
