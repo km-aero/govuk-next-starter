@@ -7,7 +7,11 @@
  * @see https://www.prisma.io/docs/orm/reference/prisma-config-reference
  */
 
+import { loadEnvConfig } from "@next/env";
 import { defineConfig } from "prisma/config";
+
+// Load environment variables from .env file
+loadEnvConfig(process.cwd());
 
 /**
  * Prisma configuration using defineConfig helper.
