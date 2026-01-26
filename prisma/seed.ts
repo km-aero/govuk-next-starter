@@ -71,25 +71,23 @@ async function main() {
   console.log(`✅ Created ${contactSubmissions.count} contact submissions`);
 
   // Create example feedback submissions
-  const feedbackSubmissions = await Promise.all([
-    prisma.feedbackSubmission.create({
-      data: {
+  const feedbackSubmissions = await prisma.feedbackSubmission.createMany({
+    data: [
+      {
         satisfaction: "very-satisfied",
         improvements: "None needed, excellent service!",
         wouldRecommend: "yes",
         email: "happy.user@example.gov.uk",
       },
-    }),
-    prisma.feedbackSubmission.create({
-      data: {
+      {
         satisfaction: "satisfied",
         improvements: "Could be faster to load on mobile.",
         wouldRecommend: "yes",
       },
-    }),
-  ]);
+    ],
+  });
 
-  console.log(`✅ Created ${feedbackSubmissions.length} feedback submissions`);
+  console.log(`✅ Created ${feedbackSubmissions.count} feedback submissions`);
   console.log("🎉 Seeding complete!");
 }
 
