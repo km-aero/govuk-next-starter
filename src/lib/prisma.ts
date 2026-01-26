@@ -13,6 +13,7 @@
 
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { env } from "@/env";
 
 // Extend the global object to include the Prisma client
 const globalForPrisma = globalThis as unknown as {
@@ -23,15 +24,13 @@ const globalForPrisma = globalThis as unknown as {
  * Creates a configured Prisma client instance with PostgreSQL adapter.
  */
 function createPrismaClient(): PrismaClient {
-  // Create the PostgreSQL adapter with the connection URL
-  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+  // Create the PostgreSQL adapter with the validated connection URL
+  const adapter = new PrismaPg({ connectionString: env.DATABASE_URL });
 
   return new PrismaClient({
     adapter,
     log:
-      process.env.NODE_ENV === "development"
-        ? ["query", "error", "warn"]
-        : ["error"],
+      env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
   });
 }
 
@@ -42,7 +41,7 @@ function createPrismaClient(): PrismaClient {
 export const prisma = globalForPrisma.prisma ?? createPrismaClient();
 
 // Store the client globally in development to enable reuse across hot reloads
-if (process.env.NODE_ENV !== "production") {
+if (env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
 }
 

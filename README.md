@@ -112,6 +112,7 @@ govuk-next-starter/
 │   │   │   ├── Panel.tsx
 │   │   │   └── index.ts
 │   │   └── GovukClientInit.tsx
+│   ├── env.ts                # Type-safe environment variables
 │   ├── lib/
 │   │   ├── prisma.ts         # Database client
 │   │   └── validation.ts     # Zod schemas
@@ -293,9 +294,23 @@ To add custom styles, add them after the import in `globals.scss`.
 
 ## Environment Variables
 
+Environment variables are validated at build time using `@t3-oss/env-nextjs` with Zod. Invalid or missing required variables will cause a build error.
+
 | Variable | Description | Required |
 | -------- | ----------- | -------- |
 | `DATABASE_URL` | PostgreSQL connection string | Yes |
+| `NODE_ENV` | Environment (development/test/production) | No (defaults to development) |
+| `SKIP_ENV_VALIDATION` | Set to "true" to skip validation (for Docker builds) | No |
+
+### Type-Safe Access
+
+```typescript
+import { env } from "@/env";
+
+// Typed and validated at build time
+const dbUrl = env.DATABASE_URL;  // string
+const nodeEnv = env.NODE_ENV;    // "development" | "test" | "production"
+```
 
 ## Deployment
 

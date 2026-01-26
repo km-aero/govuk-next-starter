@@ -1,6 +1,13 @@
 import type { NextConfig } from "next";
 import path from "path";
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Runtime Environment Validation
+// ─────────────────────────────────────────────────────────────────────────────
+// Import env to validate environment variables at runtime when Next.js starts.
+// Invalid or missing required variables will cause an immediate error.
+import "./src/env";
+
 /**
  * Next.js configuration for GOV.UK Design System integration.
  *

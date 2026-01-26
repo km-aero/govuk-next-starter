@@ -4,10 +4,23 @@
  * Seeds the database with initial data for development and testing.
  *
  * Run with: npm run db:seed
+ *
+ * IMPORTANT: This script is for development/testing only and will DELETE
+ * all existing data before seeding. It will not run in production.
  */
 
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Environment Validation
+// ─────────────────────────────────────────────────────────────────────────────
+// Validate required environment variables before attempting to connect.
+if (!process.env.DATABASE_URL) {
+  console.error("❌ DATABASE_URL environment variable is not set!");
+  console.error("   Please set it in your .env file.");
+  process.exit(1);
+}
 
 // Create adapter and client for seeding
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
