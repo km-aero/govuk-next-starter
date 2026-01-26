@@ -9,7 +9,7 @@ import { defineConfig, devices } from "@playwright/test";
  */
 export default defineConfig({
   // Directory containing test files
-  testDir: "./e2e",
+  testDir: "./tests/e2e",
 
   // Run tests in parallel
   fullyParallel: true,
@@ -36,6 +36,9 @@ export default defineConfig({
 
     // Take screenshot on failure
     screenshot: "only-on-failure",
+
+    // Allow more time for navigation after database operations
+    navigationTimeout: 60000,
   },
 
   // Configure projects for major browsers

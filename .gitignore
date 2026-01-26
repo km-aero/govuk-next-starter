@@ -10,6 +10,8 @@ build/
 
 # Testing
 coverage/
+playwright-report/
+test-results/
 
 # Environment variables
 .env

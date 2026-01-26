@@ -21,8 +21,8 @@ export default defineConfig({
     // Include patterns for test files
     include: ["tests/**/*.test.{ts,tsx}", "src/**/*.test.{ts,tsx}"],
 
-    // Exclude patterns
-    exclude: ["node_modules", "e2e/**/*"],
+    // Exclude patterns (E2E tests run with Playwright, not Vitest)
+    exclude: ["node_modules", "tests/e2e/**/*"],
 
     // Enable globals like describe, it, expect
     globals: true,

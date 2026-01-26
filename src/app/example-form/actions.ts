@@ -34,7 +34,7 @@ export interface FormActionResult {
  * @returns Result object indicating success or failure with errors
  */
 export async function submitContactForm(
-  formData: FormData
+  formData: FormData,
 ): Promise<FormActionResult> {
   // Extract form data
   const rawData = {
@@ -60,6 +60,8 @@ export async function submitContactForm(
   // Data is valid, save to database with explicit columns
   const validData: ContactFormData = result.data;
 
+  let submissionReference: string;
+
   try {
     const submission = await prisma.contactSubmission.create({
       data: {
@@ -69,18 +71,15 @@ export async function submitContactForm(
         message: validData.message,
       },
     });
-
-    // Redirect to confirmation page with reference
-    redirect(`/example-form/confirmation?ref=${submission.reference}`);
+    submissionReference = submission.reference;
   } catch (error) {
-    // Don't catch NEXT_REDIRECT errors - they're expected
-    if (error instanceof Error && error.message === "NEXT_REDIRECT") {
-      throw error;
-    }
     console.error("Failed to save form submission:", error);
     return {
       success: false,
       message: "There was a problem submitting your form. Please try again.",
     };
   }
+
+  // Redirect outside try-catch to avoid catching Next.js redirect errors
+  redirect(`/example-form/confirmation?ref=${submissionReference}`);
 }

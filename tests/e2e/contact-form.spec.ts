@@ -7,6 +7,10 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Contact Form", () => {
+  // Run tests serially to avoid database connection pool exhaustion
+  // when multiple form submissions run simultaneously
+  test.describe.configure({ mode: 'serial' });
+
   test.beforeEach(async ({ page }) => {
     await page.goto("/example-form");
   });
