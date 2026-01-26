@@ -262,21 +262,42 @@ export async function submitForm(formData: FormData) {
 
 ## Database Schema
 
-The project includes a flexible `FormSubmission` model that stores form data as JSON:
+The project includes dedicated models for contact and feedback submissions:
 
 ```prisma
-model FormSubmission {
+// Stores contact form submissions
+model ContactSubmission {
   id        String   @id @default(uuid())
-  formType  String
-  data      Json
-  email     String?
+  fullName  String
+  email     String
+  subject   String
+  message   String
   reference String   @unique @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([subject])
+  @@index([createdAt])
+}
+
+// Stores feedback submissions
+model FeedbackSubmission {
+  id              String   @id @default(uuid())
+  satisfaction    String
+  improvements    String?
+  wouldRecommend  String
+  email           String?
+  reference       String   @unique @default(uuid())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([satisfaction])
+  @@index([createdAt])
 }
 ```
 
-This allows different form types to be stored without schema changes.
+This ensures type safety and optimized database queries for specific form types.
 
 ## Styling
 
