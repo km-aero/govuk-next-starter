@@ -1,15 +1,27 @@
 /**
- * Contact Form E2E Tests
- * =======================
- * End-to-end tests for the contact form submission flow.
+ * Contact Form End-to-End Tests
+ * ==============================
+ * Tests the complete contact form submission flow including:
+ * - Form field display and validation
+ * - Error handling for invalid inputs
+ * - Successful form submission with database persistence
+ * - Confirmation page content and navigation
+ *
+ * Note: Tests in this file run serially (not in parallel) to prevent
+ * database connection pool exhaustion when multiple form submissions
+ * occur simultaneously across different browser projects.
  */
 
 import { test, expect } from "@playwright/test";
 
 test.describe("Contact Form", () => {
-  // Run tests serially to avoid database connection pool exhaustion
-  // when multiple form submissions run simultaneously
-  test.describe.configure({ mode: 'serial' });
+  // ─────────────────────────────────────────────────────────────────────────
+  // Test Configuration
+  // ─────────────────────────────────────────────────────────────────────────
+  // Run tests serially within each browser project.
+  // This prevents 12+ simultaneous database writes (3 submission tests × 4 browsers)
+  // which would exhaust the connection pool and cause flaky timeouts.
+  test.describe.configure({ mode: "serial" });
 
   test.beforeEach(async ({ page }) => {
     await page.goto("/example-form");
@@ -33,7 +45,9 @@ test.describe("Contact Form", () => {
     await expect(page.locator('button[type="submit"]')).toBeVisible();
   });
 
-  test("shows validation errors for empty form submission", async ({ page }) => {
+  test("shows validation errors for empty form submission", async ({
+    page,
+  }) => {
     // Click submit without filling the form
     await page.click('button[type="submit"]');
 
@@ -50,7 +64,10 @@ test.describe("Contact Form", () => {
     await page.fill("#fullName", "Test User");
     await page.fill("#email", "not-an-email");
     await page.selectOption("#subject", "general");
-    await page.fill("#message", "This is a test message with enough characters.");
+    await page.fill(
+      "#message",
+      "This is a test message with enough characters.",
+    );
 
     // Submit the form
     await page.click('button[type="submit"]');
@@ -64,7 +81,10 @@ test.describe("Contact Form", () => {
     await page.fill("#fullName", "Test User");
     await page.fill("#email", "test@example.gov.uk");
     await page.selectOption("#subject", "general");
-    await page.fill("#message", "This is a test message for the end-to-end test.");
+    await page.fill(
+      "#message",
+      "This is a test message for the end-to-end test.",
+    );
 
     // Submit the form
     await page.click('button[type="submit"]');
@@ -79,7 +99,7 @@ test.describe("Contact Form", () => {
 
     // Check for reference number
     await expect(page.locator(".govuk-panel__body")).toContainText(
-      "Your reference number"
+      "Your reference number",
     );
   });
 
@@ -99,7 +119,9 @@ test.describe("Contact Form", () => {
     await expect(page.locator("main")).toContainText(testEmail);
   });
 
-  test("confirmation page has links to homepage and new form", async ({ page }) => {
+  test("confirmation page has links to homepage and new form", async ({
+    page,
+  }) => {
     // Submit a valid form
     await page.fill("#fullName", "Test User");
     await page.fill("#email", "test@example.gov.uk");
@@ -110,7 +132,11 @@ test.describe("Contact Form", () => {
     await page.waitForURL(/\/example-form\/confirmation/);
 
     // Check for links - use specific text to avoid matching multiple elements
-    await expect(page.getByRole('link', { name: 'Return to homepage' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Submit another form' })).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Return to homepage" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Submit another form" }),
+    ).toBeVisible();
   });
-});
+};);

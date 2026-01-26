@@ -153,7 +153,7 @@ The project includes a comprehensive testing setup:
 ### Component Tests (Vitest + Testing Library)
 
 ```bash
-# Run tests in watch mode
+# Run tests
 npm run test
 
 # Run with UI
@@ -181,11 +181,11 @@ npm run test:e2e:headed
 npm run test:e2e:ui
 ```
 
-Tests are located in `e2e/` directory:
+Tests are located in `tests/e2e/` directory:
 
-- `e2e/homepage.spec.ts` - Homepage tests
-- `e2e/contact-form.spec.ts` - Form submission flow
-- `e2e/accessibility.spec.ts` - Accessibility tests
+- `tests/e2e/homepage.spec.ts` - Homepage tests
+- `tests/e2e/contact-form.spec.ts` - Form submission flow (runs serially to avoid database contention)
+- `tests/e2e/accessibility.spec.ts` - Accessibility tests using axe-core
 
 ### Accessibility Tests
 
