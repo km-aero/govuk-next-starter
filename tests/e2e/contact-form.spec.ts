@@ -139,4 +139,4 @@ test.describe("Contact Form", () => {
       page.getByRole("link", { name: "Submit another form" }),
     ).toBeVisible();
   });
-};);
+});
