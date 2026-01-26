@@ -10,6 +10,7 @@
  */
 
 import { useEffect } from "react";
+import { logger } from "@/lib/logger";
 
 /**
  * Initializes GOV.UK Frontend JavaScript on component mount.
@@ -23,7 +24,7 @@ export function GovukClientInit() {
         const { initAll } = await import("govuk-frontend");
         initAll();
       } catch (error) {
-        console.error("Failed to initialize GOV.UK Frontend:", error);
+        logger.error({ err: error }, "Failed to initialize GOV.UK Frontend");
       }
     };
 

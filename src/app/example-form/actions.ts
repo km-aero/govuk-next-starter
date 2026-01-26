@@ -9,6 +9,7 @@
 
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger";
 import { contactFormSchema, type ContactFormData } from "@/lib/validation";
 
 /**
@@ -84,7 +85,7 @@ export async function submitContactForm(
     submissionReference = submission.reference;
   } catch (error) {
     // Log the error for debugging (visible in server logs)
-    console.error("Failed to save form submission:", error);
+    logger.error({ err: error }, "Failed to save form submission");
     return {
       success: false,
       message: "There was a problem submitting your form. Please try again.",

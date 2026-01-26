@@ -51,19 +51,27 @@ export type ContactFormData = z.infer<typeof contactFormSchema>;
  * Validates satisfaction rating and optional improvement suggestions.
  */
 export const feedbackFormSchema = z.object({
-  satisfaction: z.enum(["very-satisfied", "satisfied", "neutral", "dissatisfied", "very-dissatisfied"], {
-    errorMap: () => ({ message: "Select how satisfied you are" }),
-  }),
+  satisfaction: z.enum(
+    [
+      "very-satisfied",
+      "satisfied",
+      "neutral",
+      "dissatisfied",
+      "very-dissatisfied",
+    ] as const,
+    {
+      message: "Select how satisfied you are",
+    },
+  ),
 
   improvements: z
     .string()
     .max(2000, { message: "Suggestions must be 2000 characters or less" })
     .optional(),
 
-  wouldRecommend: z
-    .enum(["yes", "no", "maybe"], {
-      errorMap: () => ({ message: "Select whether you would recommend this service" }),
-    }),
+  wouldRecommend: z.enum(["yes", "no", "maybe"] as const, {
+    message: "Select whether you would recommend this service",
+  }),
 });
 
 /**
