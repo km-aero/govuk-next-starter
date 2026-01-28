@@ -28,7 +28,7 @@
     "@prisma/client": "^7.3.0",
     "@t3-oss/env-nextjs": "^0.13.10",
     "govuk-frontend": "^5.14.0",
-    "next": "^16.1.4",
+    "next": "^16.1.5",
     "pino": "^10.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
